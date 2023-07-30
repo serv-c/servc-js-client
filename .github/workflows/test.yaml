@@ -1,0 +1,101 @@
+name: Test
+
+on:
+  push:
+    branches-ignore:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  version-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'current'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm install
+      - name: Check if version has been updated
+        id: check
+        uses: EndBug/version-check@v2
+        with:
+          diff-search: true
+
+      - name: Version update detected
+        if: steps.check.outputs.changed == 'true'
+        run: 'echo "Version change found! New version: ${{ steps.check.outputs.version }} (${{ steps.check.outputs.type }})"'
+      - name: Version update not detected
+        if: steps.check.outputs.changed == 'false'
+        run: 'echo "Error: Version not change found!". && exit 1'
+
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      rabbitmq:
+        image: rabbitmq:latest
+        options: >-
+          --health-cmd "rabbitmqctl node_health_check"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          RABBITMQ_DEFAULT_VHOST: test
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      svc:
+        image: servcorg/svc-sample-js:master
+        ports:
+          - 3000:3000
+        env:
+          PORT: 3000
+          CACHE_URL: redis://redis
+          BUS_URL: amqp://rabbitmq/test
+          DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
+        options: >-
+          --health-cmd "wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    strategy:
+      matrix:
+        container: ['node:lts-alpine', 'node:current-alpine']
+
+    container:
+      image: ${{ matrix.container }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install
+      - run: npm run build
+      - run: npm run-script testsimple || true
+        env:
+          CACHE_URL: redis://redis
+          BUS_URL: amqp://rabbitmq/test
+          DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
+          API_URL: http://svc:3000
+      - run: npm run-script testsimple
+        env:
+          CACHE_URL: redis://redis
+          BUS_URL: amqp://rabbitmq/test
+          DATABASE_URL: postgresql://postgres:postgres@postgres/postgres
+          API_URL: http://svc:3000
