@@ -1,0 +1,32 @@
+name: Publish Artifacts
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - "*"
+
+env:
+  REGISTRY_IMAGE: ${{ secrets.DOCKER_REPO }}/${{ github.event.repository.name }}
+
+jobs:
+  npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "current"
+          registry-url: "https://registry.npmjs.org"
+      - run: npm ci
+      - name: Check if version has been updated
+        id: check
+        uses: EndBug/version-check@v2
+        with:
+          diff-search: true
+      - run: npm run-script build
+      - run: npm publish
+        if: steps.check.outputs.changed == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
