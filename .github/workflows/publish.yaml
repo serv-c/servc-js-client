@@ -26,6 +26,7 @@ jobs:
         with:
           diff-search: true
       - run: npm run-script build
-      - run: npm publish --access public
+      - run: |
+          npm unpublish @serv-c/servc -f
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
