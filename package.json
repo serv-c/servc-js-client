@@ -1,5 +1,5 @@
 {
-  "name": "servc",
+  "name": "@drgroot/servc",
   "version": "0.1.0",
   "description": "Client interface for servc",
   "main": "dist/index.js",
