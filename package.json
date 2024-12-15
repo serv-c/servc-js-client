@@ -1,7 +1,7 @@
 {
-  "name": "@serv-c/servc",
+  "name": "servc",
   "version": "0.1.0",
-  "description": "Client interface for servc ",
+  "description": "Client interface for servc",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
