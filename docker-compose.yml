@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  devcontainer:
+    image: mcr.microsoft.com/vscode/devcontainers/typescript-node
+    volumes:
+      - .:/workspace:cached
+    command: sleep infinity
+    environment:
+      TEST_QUEUE: test
+      API_URL: http://svc:3000
+    links:
+      - svc
+
+  svc:
+    image: yusufali/servc
+    environment:
+      CONF__HTTP__PORT: 3000
+      CONF__BUS__ROUTE: test
+      CONF__CACHE__URL: redis://redis
+      CONF__BUS__URL: amqp://rabbitmq:rabbitmq@rabbitmq/
+    links:
+      - rabbitmq
+      - redis
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+
+  redis:
+    image: redis
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+      RABBITMQ_DEFAULT_VHOST: /

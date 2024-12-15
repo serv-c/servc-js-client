@@ -13,21 +13,21 @@
   "scripts": {
     "build": "tsc",
     "test": "jest --env=node --colors --coverage test --detectOpenHandles",
-    "testsimple": "npm test -- --forceExit"
+    "lint": "prettier --write src/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/serv-c/svc-lib-server-js.git"
+    "url": "git+https://github.com/serv-c/servc-js-client.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/serv-c/svc-lib-server-js/issues"
+    "url": "https://github.com/serv-c/servc-js-client/issues"
   },
-  "homepage": "https://github.com/serv-c/svc-lib-server-js",
+  "homepage": "https://github.com/serv-c/servc-js-client",
   "devDependencies": {
     "@types/jest": "^29.5.3",
     "jest": "^29.6.1",
-    "servc-svc-lib-server": "^0.2.3",
+    "prettier": "3.4.2",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
