@@ -2,8 +2,8 @@
 
 JS client to interface with a Serv-C compatible server. Documentation can be found https://docs.servc.io
 
-[![NPM version](https://img.shields.io/npm/v/%40drgroot%2Fservc)](https://img.shields.io/npm/v/%40drgroot%2Fservc)
-![NPM Downloads](https://img.shields.io/npm/d18m/%40drgroot%2Fservc)
+[![NPM version](https://img.shields.io/npm/v/%40drgroot%2Fservc)](https://www.npmjs.com/package/@drgroot/servc)
+[![NPM Downloads](https://img.shields.io/npm/d18m/%40drgroot%2Fservc)](https://www.npmjs.com/package/@drgroot/servc)
 
 ## Example
 
