@@ -2,15 +2,15 @@
 
 JS client to interface with a Serv-C compatible server. Documentation can be found https://docs.servc.io
 
-[![NPM version](https://img.shields.io/npm/v/%40serv-c%2Fservc)](https://img.shields.io/npm/v/%40serv-c%2Fservc)
-![NPM Downloads](https://img.shields.io/npm/d18m/%40serv-c%2Fservc)
+[![NPM version](https://img.shields.io/npm/v/servc)](https://img.shields.io/npm/v/servc)
+![NPM Downloads](https://img.shields.io/npm/d18m/servc)
 
 ## Example
 
 Here is the most simple example of use,
 
 ```javascript
-import get from "@serv-c/servc";
+import get from "servc";
 
 const response = await poll(
   {

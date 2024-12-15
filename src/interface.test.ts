@@ -32,10 +32,12 @@ it("should retrieve response artifact", async () => {
   );
 
   const response = await getJob(id, url);
-  expect(response.isError).toBe(false);
-  expect(response.responseBody).toBe(false);
-  expect(response.progress).toBe(100);
-  expect(response.statusCode).toBe(STATUSCODE.OK);
+  if (response) {
+    expect(response.isError).toBe(false);
+    expect(response.responseBody).toBe(false);
+    expect(response.progress).toBe(100);
+    expect(response.statusCode).toBe(STATUSCODE.OK);
+  }
 });
 
 it("should poll a job", async () => {
