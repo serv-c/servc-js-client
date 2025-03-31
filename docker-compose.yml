@@ -19,6 +19,7 @@ services:
       CONF__BUS__ROUTE: test
       CONF__CACHE__URL: redis://redis
       CONF__BUS__URL: amqp://rabbitmq:rabbitmq@rabbitmq/
+      CONF__WORKER__EXITON5XX: "false"
     links:
       - rabbitmq
       - redis

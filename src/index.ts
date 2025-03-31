@@ -1,5 +1,4 @@
 import { InputType, type InputPayload } from "./input";
-import { STATUSCODE, type ResponseArtifact } from "./response";
 import type {
   Job,
   JobInput,
@@ -8,7 +7,11 @@ import type {
   SubscribeFunction,
 } from "./client";
 
-export const send: JobInput = async <T>(input: Job<T>, url: string) => {
+export const send: JobInput = async <T>(
+  input: Job<T>,
+  url: string,
+  headers: { [key: string]: string } = {},
+) => {
   const bodyPayload: InputPayload<T> = {
     type: InputType.INPUT,
     ...input,
@@ -17,6 +20,7 @@ export const send: JobInput = async <T>(input: Job<T>, url: string) => {
   const res = await fetch(url, {
     method: "POST",
     headers: {
+      ...headers,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(bodyPayload),
@@ -36,14 +40,10 @@ export const poll: PollFunction = async <T, G>(
 
   const getResponse = () => getJob<G>(id, url);
 
-  let response: ResponseArtifact<G> = await getResponse();
-  while (
-    response.progress < 100 &&
-    response.statusCode === STATUSCODE.OK &&
-    !response.isError
-  ) {
+  let response = await getResponse();
+  while (!response || (response && response.progress < 100)) {
     response = await getResponse();
-    if (subscribe) {
+    if (subscribe && response) {
       subscribe(response);
     }
   }
