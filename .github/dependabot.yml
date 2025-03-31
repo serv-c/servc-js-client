@@ -1,13 +1,8 @@
-version: 2
 updates:
-  - package-ecosystem: github-actions
-    directory: "/"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: npm
-    commit-message:
-      prefix: fix
-    directory: "/"
-    schedule:
-      interval: "daily"
+- commit-message:
+    prefix: fix
+  directory: /
+  package-ecosystem: github-actions
+  schedule:
+    interval: daily
+version: 2
