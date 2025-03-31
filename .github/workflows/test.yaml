@@ -33,6 +33,7 @@ jobs:
           CONF__BUS__ROUTE: test
           CONF__CACHE__URL: redis://redis
           CONF__BUS__URL: amqp://guest:guest@rabbitmq
+          CONF__WORKER__EXITON5XX: "false"
 
     strategy:
       matrix:
