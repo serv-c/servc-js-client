@@ -1,4 +1,4 @@
-import { InputType, type InputPayload } from "./input";
+import { InputType, type InputPayload, type ArgumentArtifact } from "./input";
 import type {
   Job,
   JobInput,
@@ -6,6 +6,7 @@ import type {
   PollFunction,
   SubscribeFunction,
 } from "./client";
+import { STATUSCODE, type ResponseArtifact } from "./response.ts";
 
 export const send: JobInput = async <T>(
   input: Job<T>,
@@ -50,5 +51,15 @@ export const poll: PollFunction = async <T, G>(
 
   return response;
 };
+
+export InputType;
+
+export InputPayload;
+
+export ArgumentArtifact;
+
+export STATUSCODE;
+
+export ResponseArtifact;
 
 export default poll;
