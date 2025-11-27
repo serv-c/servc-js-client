@@ -21,7 +21,8 @@ jobs:
         fetch-depth: 0
         fetch-tags: true
         submodules: true
-    - name: Setup GitHub CLI
+    - &id001
+      name: Setup GitHub CLI
       uses: ksivamuthu/actions-setup-gh-cli@v3
     - env:
         GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -39,8 +40,7 @@ jobs:
         fetch-depth: 0
         fetch-tags: true
         submodules: true
-    - name: Setup GitHub CLI
-      uses: ksivamuthu/actions-setup-gh-cli@v3
+    - *id001
     - env:
         GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         PR_URL: ${{github.event.pull_request.html_url}}
