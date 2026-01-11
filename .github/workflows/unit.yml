@@ -1,0 +1,41 @@
+jobs:
+  unittest:
+    runs-on:
+    - ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        submodules: true
+    - uses: actions/setup-node@v6
+      with:
+        node-version: current
+    - env:
+        NPMPASS: ${{ secrets.NPMPASS }}
+        NPMUSER: ${{ secrets.NPMUSER }}
+      name: Login to NPM
+      run: |-
+        touch ~/.npmrc
+        npm config set userconfig ~/.npmrc
+
+        encoded_pw=$(printf '%s' "${NPMPASS}" | base64 | tr -d '
+        ')
+        encoded_auth=$(printf '%s' "${NPMUSER}:${NPMPASS}" | base64 | tr -d '
+        ')
+
+        npm set registry https://npm.yusufali.ca
+        npm set @servc:registry https://npm.yusufali.ca
+        npm set "//npm.yusufali.ca/:username" "${NPMUSER}"
+        npm set "//npm.yusufali.ca/:_password" "${encoded_pw}"
+        npm set "//npm.yusufali.ca/:_auth" "${encoded_auth}"
+    - name: Install dependencies
+      run: npm install
+      working-directory: ''
+    - name: Settle Depends
+      run: echo hi
+      working-directory: ''
+    - name: Run Tests
+      run: npm test
+      working-directory: ''
+name: Unit Test
+'on':
+  pull_request: {}
