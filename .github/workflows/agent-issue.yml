@@ -1,0 +1,22 @@
+jobs:
+  agent-embed-issue:
+    if: contains(github.event.comment.body, 'solution:')
+    permissions:
+      contents: read
+      issues: read
+    runs-on:
+    - ubuntu-latest
+    steps:
+    - env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      name: Send to embeddings
+      uses: https://git.yusufali.ca/actions/embed-issues@main
+      with:
+        api_token: ${{ secrets.AGENT_TOKEN }}
+        api_url: ${{ secrets.AGENT_API_URL }}
+name: Send Issues to VectorDB
+'on':
+  issue_comment:
+    types:
+    - created
+    - edited
