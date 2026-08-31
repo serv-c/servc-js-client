@@ -26,7 +26,7 @@
   "homepage": "https://github.com/serv-c/servc-js-client",
   "devDependencies": {
     "@types/jest": "30.0.0",
-    "jest": "30.4.2",
+    "jest": "30.5.0",
     "prettier": "3.9.6",
     "ts-jest": "29.4.12",
     "ts-node": "10.9.2",
