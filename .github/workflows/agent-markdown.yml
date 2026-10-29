@@ -1,0 +1,21 @@
+jobs:
+  agent-embed-markdown:
+    runs-on:
+    - ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        submodules: true
+    - name: Send to embeddings
+      uses: https://git.yusufali.ca/actions/embed-markdown@main
+      with:
+        api_token: ${{ secrets.AGENT_TOKEN }}
+        api_url: ${{ secrets.AGENT_API_URL }}
+name: Send Markdown to VectorDB
+'on':
+  push:
+    branches:
+    - main
+    paths:
+    - '**.md'
+  workflow_dispatch: {}

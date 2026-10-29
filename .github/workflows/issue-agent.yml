@@ -1,0 +1,24 @@
+jobs:
+  dispatch:
+    if: contains(github.event.comment.body, '@bot')
+    permissions:
+      contents: read
+      issues: read
+    runs-on:
+    - ubuntu-latest
+    steps:
+    - env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      name: Send task to coding agent
+      uses: https://git.yusufali.ca/actions/issue-codebot@main
+      with:
+        api_token: ${{ secrets.AGENT_TOKEN }}
+        api_url: ${{ secrets.AGENT_API_URL }}
+        bot_route: agent-bot
+        debug: false
+name: Send Tasks to Agent
+'on':
+  issue_comment:
+    types:
+    - created
+    - edited
